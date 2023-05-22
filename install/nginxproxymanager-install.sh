@@ -12,7 +12,7 @@ catch_errors
 setting_up_container
 network_check
 
-sed -i "s@http://\(deb\|security\).debian.org@https://mirrors.aliyun.com@g" /etc/apt/sources.list
+sed -i "s@http://\(deb\|security\).debian.org@https://mirrors.ustc.edu.cn/@g" /etc/apt/sources.list
 
 update_os
 
