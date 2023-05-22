@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-source <(curl -s https://raw.githubusercontent.com/tteck/Proxmox/main/misc/build.func)
+source <(curl -s https:/raw.yzuu.cf/Catfish-Y/Proxmox/main/misc/build.func)
 # Copyright (c) 2021-2023 tteck
 # Author: tteck (tteckster)
 # License: MIT
@@ -124,8 +124,12 @@ function update_script() {
   mkdir -p /app/global /app/frontend/images
   cp -r backend/* /app
   cp -r global/* /app/global
-  wget -q "https://github.com/just-containers/s6-overlay/releases/download/v3.1.5.0/s6-overlay-noarch.tar.xz"
-  wget -q "https://github.com/just-containers/s6-overlay/releases/download/v3.1.5.0/s6-overlay-x86_64.tar.xz"
+  
+  #wget -q "https://github.com/just-containers/s6-overlay/releases/download/v3.1.5.0/s6-overlay-noarch.tar.xz"
+  wget -q "https://hub.yzuu.cf/just-containers/s6-overlay/releases/download/v3.1.5.0/s6-overlay-noarch.tar.xz"
+  #wget -q "https://github.com/just-containers/s6-overlay/releases/download/v3.1.5.0/s6-overlay-x86_64.tar.xz"
+  wget -q "https://hub.yzuu.cf/just-containers/s6-overlay/releases/download/v3.1.5.0/s6-overlay-x86_64.tar.xz"
+  
   tar -C / -Jxpf s6-overlay-noarch.tar.xz
   tar -C / -Jxpf s6-overlay-x86_64.tar.xz
   python3 -m pip install --no-cache-dir certbot-dns-cloudflare &>/dev/null
