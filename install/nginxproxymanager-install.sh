@@ -34,6 +34,7 @@ msg_ok "Installed Dependencies"
 
 msg_info "Installing Python"
 $STD apt-get install -y -q --no-install-recommends python3 python3-pip python3-venv
+$STD pip3 config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple
 $STD pip3 install --upgrade setuptools
 $STD pip3 install --upgrade pip
 $STD python3 -m venv /opt/certbot/
@@ -58,9 +59,17 @@ msg_info "Installing Node.js"
 $STD apt-get install -y nodejs
 msg_ok "Installed Node.js"
 
+msg_info "Change-Source(npm)"
+$STD npm config set registry https://registry.npmmirror.com
+msg_ok "Change-Source(npm)"
+
 msg_info "Installing Yarn"
 $STD npm install --global yarn
 msg_ok "Installed Yarn"
+
+msg_info "Change-Source(Yarn)"
+$STD yarn config set registry https://registry.npmmirror.com
+msg_ok "Change-Source(Yarn)"
 
 RELEASE=$(curl -s https://api.github.com/repos/NginxProxyManager/nginx-proxy-manager/releases/latest |
   grep "tag_name" |
@@ -124,8 +133,12 @@ fi
 mkdir -p /app/global /app/frontend/images
 cp -r backend/* /app
 cp -r global/* /app/global
-wget -q "https://github.com/just-containers/s6-overlay/releases/download/v3.1.5.0/s6-overlay-noarch.tar.xz"
-wget -q "https://github.com/just-containers/s6-overlay/releases/download/v3.1.5.0/s6-overlay-x86_64.tar.xz"
+
+#wget -q "https://github.com/just-containers/s6-overlay/releases/download/v3.1.5.0/s6-overlay-noarch.tar.xz"
+wget -q "https://hub.yzuu.cf/just-containers/s6-overlay/releases/download/v3.1.5.0/s6-overlay-noarch.tar.xz"
+#wget -q "https://github.com/just-containers/s6-overlay/releases/download/v3.1.5.0/s6-overlay-x86_64.tar.xz"
+wget -q "https://hub.yzuu.cf/just-containers/s6-overlay/releases/download/v3.1.5.0/s6-overlay-x86_64.tar.xz"
+
 tar -C / -Jxpf s6-overlay-noarch.tar.xz
 tar -C / -Jxpf s6-overlay-x86_64.tar.xz
 msg_ok "Set up Enviroment"
@@ -133,6 +146,12 @@ msg_ok "Set up Enviroment"
 msg_info "Building Frontend"
 cd ./frontend
 export NODE_ENV=development
+
+sed -i 's/github.com/hub.yzuu.cf/g' package.json
+sed -i 's/raw.githubusercontent.com/raw.yzuu.cf/g' package.json
+# Change-Source(Yarn-lock-file)
+sed -i 's/registry.yarnpkg.com/registry.npmmirror.com/g' yarn.lock
+
 $STD yarn install --network-timeout=30000
 $STD yarn build
 cp -r dist/* /app/frontend
@@ -158,6 +177,10 @@ EOF
 fi
 cd /app
 export NODE_ENV=development
+
+# Change-Source(Yarn-lock-file)
+sed -i 's/registry.yarnpkg.com/registry.npmmirror.com/g' yarn.lock
+
 $STD yarn install --network-timeout=30000
 msg_ok "Initialized Backend"
 
