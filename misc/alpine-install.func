@@ -76,6 +76,10 @@ https://dl-cdn.alpinelinux.org/alpine/edge/main
 https://dl-cdn.alpinelinux.org/alpine/edge/community
 https://dl-cdn.alpinelinux.org/alpine/edge/testing
 EOF
+
+  #Change-the-source
+  sed -i 's/dl-cdn.alpinelinux.org/mirrors.ustc.edu.cn/g' /etc/apk/repositories
+  
   msg_ok "Set up Container OS"
   msg_ok "Network Connected: ${BL}$(ip addr show | grep 'inet ' | awk '{print $2}' | cut -d'/' -f1 | tail -n1)${CL}"
 }
