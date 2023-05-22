@@ -75,7 +75,8 @@ function update_script() {
   msg_ok "Cleaned Old Files"
 
   msg_info "Downloading NPM v${RELEASE}"
-  wget -q https://codeload.github.com/NginxProxyManager/nginx-proxy-manager/tar.gz/v${RELEASE} -O - | tar -xz &>/dev/null
+  #wget -q https://codeload.github.com/NginxProxyManager/nginx-proxy-manager/tar.gz/v${RELEASE} -O - | tar -xz &>/dev/null
+  wget -q https://codeload.kgithub.com/NginxProxyManager/nginx-proxy-manager/tar.gz/v${RELEASE} -O - | tar -xz &>/dev/null
   cd nginx-proxy-manager-${RELEASE}
   msg_ok "Downloaded NPM v${RELEASE}"
 
@@ -138,6 +139,12 @@ function update_script() {
   msg_info "Building Frontend"
   cd ./frontend
   export NODE_ENV=development
+  
+  sed -i 's/github.com/hub.yzuu.cf/g' package.json
+  sed -i 's/raw.githubusercontent.com/raw.yzuu.cf/g' package.json
+  # Change-Source(Yarn-lock-file)
+  sed -i 's/registry.yarnpkg.com/registry.npmmirror.com/g' yarn.lock
+
   yarn install --network-timeout=30000 &>/dev/null
   yarn build &>/dev/null
   cp -r dist/* /app/frontend
@@ -163,6 +170,10 @@ EOF
   fi
   cd /app
   export NODE_ENV=development
+  
+  # Change-Source(Yarn-lock-file)
+  sed -i 's/registry.yarnpkg.com/registry.npmmirror.com/g' yarn.lock
+
   yarn install --network-timeout=30000 &>/dev/null
   msg_ok "Initialized Backend"
 
