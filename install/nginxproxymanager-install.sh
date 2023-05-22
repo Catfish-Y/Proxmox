@@ -11,9 +11,11 @@ verb_ip6
 catch_errors
 setting_up_container
 network_check
-update_os
 
 sed -i "s@http://\(deb\|security\).debian.org@https://mirrors.aliyun.com@g" /etc/apt/sources.list
+
+update_os
+
 
 msg_info "Installing Dependencies"
 $STD apt-get update
