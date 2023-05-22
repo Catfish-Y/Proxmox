@@ -53,7 +53,10 @@ if echo "$prompt" | grep -Eq "^(y|yes)$"; then
   msg_info "Installing Docker Compose $DOCKER_COMPOSE_LATEST_VERSION"
   DOCKER_CONFIG=${DOCKER_CONFIG:-$HOME/.docker}
   mkdir -p $DOCKER_CONFIG/cli-plugins
-  curl -sSL https://github.com/docker/compose/releases/download/$DOCKER_COMPOSE_LATEST_VERSION/docker-compose-linux-x86_64 -o ~/.docker/cli-plugins/docker-compose
+  
+  #curl -sSL https://github.com/docker/compose/releases/download/$DOCKER_COMPOSE_LATEST_VERSION/docker-compose-linux-x86_64 -o ~/.docker/cli-plugins/docker-compose
+  curl -sSL https://yzuu.cf/docker/compose/releases/download/$DOCKER_COMPOSE_LATEST_VERSION/docker-compose-linux-x86_64 -o ~/.docker/cli-plugins/docker-compose
+  
   chmod +x $DOCKER_CONFIG/cli-plugins/docker-compose
   msg_ok "Installed Docker Compose $DOCKER_COMPOSE_LATEST_VERSION"
 fi
