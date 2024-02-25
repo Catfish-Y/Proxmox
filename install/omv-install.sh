@@ -13,7 +13,7 @@ setting_up_container
 network_check
 
 # Change-the-source
-$STD sed -i 's/http://deb.debian.org/https://mirrors.tuna.tsinghua.edu.cn/g' /etc/apt/sources.list
+$STD sed -i "s@http://deb.debian.org@https://mirrors.tuna.tsinghua.edu.cn/@g" /etc/apt/sources.list
 
 update_os
 
