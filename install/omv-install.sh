@@ -11,6 +11,10 @@ verb_ip6
 catch_errors
 setting_up_container
 network_check
+
+# Change-the-source
+sed -i 's/http://deb.debian.org/https://mirrors.tuna.tsinghua.edu.cn/g' /etc/apt/sources.list
+
 update_os
 
 msg_info "Installing Dependencies"
