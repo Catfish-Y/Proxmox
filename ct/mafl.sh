@@ -6,21 +6,21 @@ source <(curl -s https://raw.githubusercontent.com/tteck/Proxmox/main/misc/build
 # https://github.com/tteck/Proxmox/raw/main/LICENSE
 
 function header_info {
-clear
-cat <<"EOF"
-    ____                            __  __                   
-   / __ \_________  ____ ___  ___  / /_/ /_  ___  __  _______
-  / /_/ / ___/ __ \/ __  __ \/ _ \/ __/ __ \/ _ \/ / / / ___/
- / ____/ /  / /_/ / / / / / /  __/ /_/ / / /  __/ /_/ (__  ) 
-/_/   /_/   \____/_/ /_/ /_/\___/\__/_/ /_/\___/\__,_/____/  
- 
+  clear
+  cat <<"EOF"
+    __  ___      ______
+   /  |/  /___ _/ __/ /
+  / /|_/ / __ `/ /_/ /
+ / /  / / /_/ / __/ /
+/_/  /_/\__,_/_/ /_/
+
 EOF
 }
 header_info
 echo -e "Loading..."
-APP="Prometheus"
-var_disk="4"
-var_cpu="1"
+APP="Mafl"
+var_disk="6"
+var_cpu="2"
 var_ram="2048"
 var_os="debian"
 var_version="12"
@@ -53,16 +53,21 @@ function default_settings() {
 }
 
 function update_script() {
-header_info
-if [[ ! -f /etc/systemd/system/prometheus.service ]]; then msg_error "No ${APP} Installation Found!"; exit; fi
-msg_error "There is currently no update path available."
-exit
+  header_info
+  if [[ ! -d /opt/mafl ]]; then msg_error "No ${APP} Installation Found!"; exit; fi
+  msg_error "There is currently no update path available."
+  exit
 }
 
 start
 build_container
 description
 
+msg_info "Setting Container to Normal Resources"
+pct set $CTID -memory 1024
+pct set $CTID -cores 1
+msg_ok "Set Container to Normal Resources"
+
 msg_ok "Completed Successfully!\n"
 echo -e "${APP} should be reachable by going to the following URL.
-         ${BL}http://${IP}:9090${CL} \n"
+         ${BL}http://${IP}:3000${CL} \n"
