@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+
 source <(curl -s https://raw.githubusercontent.com/tteck/Proxmox/main/misc/build.func)
 # Copyright (c) 2021-2024 tteck
 # Author: tteck (tteckster)
@@ -8,19 +9,18 @@ source <(curl -s https://raw.githubusercontent.com/tteck/Proxmox/main/misc/build
 function header_info {
 clear
 cat <<"EOF"
-         ___        
-        / _ \       
-  _ __ | (_) |____  
- |  _ \ > _ <|  _ \ 
- | | | | (_) | | | |
- |_| |_|\___/|_| |_|
- 
+    __  ___         ___       __  __________  __
+   /  |/  /__  ____/ (_)___ _/  |/  /_  __/ |/ /
+  / /|_/ / _ \/ __  / / __ `/ /|_/ / / /  |   /
+ / /  / /  __/ /_/ / / /_/ / /  / / / /  /   |
+/_/  /_/\___/\__,_/_/\__,_/_/  /_/ /_/  /_/|_|
+
 EOF
 }
 header_info
 echo -e "Loading..."
-APP="n8n"
-var_disk="6"
+APP="MediaMTX"
+var_disk="4"
 var_cpu="2"
 var_ram="2048"
 var_os="debian"
@@ -55,17 +55,9 @@ function default_settings() {
 
 function update_script() {
 header_info
-if [[ ! -f /etc/systemd/system/n8n.service ]]; then msg_error "No ${APP} Installation Found!"; exit; fi
-  if [[ "$(node -v | cut -d 'v' -f 2)" == "18."* ]]; then
-    if ! command -v npm >/dev/null 2>&1; then
-      echo "Installing NPM..."
-      apt-get install -y npm >/dev/null 2>&1
-      echo "Installed NPM..."
-    fi
-  fi
-msg_info "Updating ${APP} LXC"
-npm update -g n8n &>/dev/null
-msg_ok "Updated Successfully"
+if [[ ! -d /opt/mediamtx/ ]]; then msg_error "No ${APP} Installation Found!"; exit; fi
+
+msg_error "There is currently no update path available."
 exit
 }
 
@@ -74,5 +66,3 @@ build_container
 description
 
 msg_ok "Completed Successfully!\n"
-echo -e "${APP} should be reachable by going to the following URL.
-         ${BL}http://${IP}:5678${CL} \n"

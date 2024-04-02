@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+
 source <(curl -s https://raw.githubusercontent.com/tteck/Proxmox/main/misc/build.func)
 # Copyright (c) 2021-2024 tteck
 # Author: tteck (tteckster)
@@ -8,19 +9,18 @@ source <(curl -s https://raw.githubusercontent.com/tteck/Proxmox/main/misc/build
 function header_info {
 clear
 cat <<"EOF"
-         ___        
-        / _ \       
-  _ __ | (_) |____  
- |  _ \ > _ <|  _ \ 
- | | | | (_) | | | |
- |_| |_|\___/|_| |_|
- 
+    ____                                          ____             __                  _____
+   / __ \_________  _  ______ ___  ____  _  __   / __ )____ ______/ /____  ______     / ___/___  ______   _____  _____
+  / /_/ / ___/ __ \| |/_/ __ `__ \/ __ \| |/_/  / __  / __ `/ ___/ //_/ / / / __ \    \__ \/ _ \/ ___/ | / / _ \/ ___/
+ / ____/ /  / /_/ />  </ / / / / / /_/ />  <   / /_/ / /_/ / /__/ ,< / /_/ / /_/ /   ___/ /  __/ /   | |/ /  __/ /
+/_/   /_/   \____/_/|_/_/ /_/ /_/\____/_/|_|  /_____/\__,_/\___/_/|_|\__,_/ .___/   /____/\___/_/    |___/\___/_/
+                                                                         /_/
 EOF
 }
 header_info
 echo -e "Loading..."
-APP="n8n"
-var_disk="6"
+APP="PBS"
+var_disk="10"
 var_cpu="2"
 var_ram="2048"
 var_os="debian"
@@ -55,17 +55,11 @@ function default_settings() {
 
 function update_script() {
 header_info
-if [[ ! -f /etc/systemd/system/n8n.service ]]; then msg_error "No ${APP} Installation Found!"; exit; fi
-  if [[ "$(node -v | cut -d 'v' -f 2)" == "18."* ]]; then
-    if ! command -v npm >/dev/null 2>&1; then
-      echo "Installing NPM..."
-      apt-get install -y npm >/dev/null 2>&1
-      echo "Installed NPM..."
-    fi
-  fi
-msg_info "Updating ${APP} LXC"
-npm update -g n8n &>/dev/null
-msg_ok "Updated Successfully"
+if [[ ! -d /var ]]; then msg_error "No ${APP} Installation Found!"; exit; fi
+msg_info "Updating $APP LXC"
+apt-get update &>/dev/null
+apt-get -y upgrade &>/dev/null
+msg_ok "Updated $APP LXC"
 exit
 }
 
@@ -75,4 +69,4 @@ description
 
 msg_ok "Completed Successfully!\n"
 echo -e "${APP} should be reachable by going to the following URL.
-         ${BL}http://${IP}:5678${CL} \n"
+         ${BL}http://${IP}:8007${CL} \n"
