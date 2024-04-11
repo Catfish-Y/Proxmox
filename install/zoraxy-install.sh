@@ -22,15 +22,16 @@ msg_ok "Installed Dependencies"
 
 msg_info "Installing Golang"
 set +o pipefail
-RELEASE=$(curl -s https://go.dev/dl/ | grep -o "go.*\linux-amd64.tar.gz" | head -n 1)
-wget -q https://golang.org/dl/$RELEASE
+RELEASE=$(curl -s https://mirrors.ustc.edu.cn/golang/ | grep -o "go.*\linux-amd64.tar.gz" | head -n 1)
+wget -q https://mirrors.ustc.edu.cn/golang/$RELEASE
 $STD tar -xzf $RELEASE -C /usr/local
 $STD ln -s /usr/local/go/bin/go /usr/local/bin/go
 set -o pipefail
+export GOPROXY=https://goproxy.io,direct
 msg_ok "Installed Golang"
 
 msg_info "Installing Zoraxy (Patience)"
-$STD git clone https://github.com/tobychui/zoraxy /opt/zoraxy
+$STD git clone https://hub.yzuu.cf/tobychui/zoraxy /opt/zoraxy
 cd /opt/zoraxy/src
 $STD go mod tidy
 $STD go build
