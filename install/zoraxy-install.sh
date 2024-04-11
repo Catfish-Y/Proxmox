@@ -22,8 +22,8 @@ msg_ok "Installed Dependencies"
 
 msg_info "Installing Golang"
 set +o pipefail
-RELEASE=$(curl -s https://mirrors.ustc.edu.cn/golang/ | grep -o "go.*\linux-amd64.tar.gz" | head -n 1)
-wget -q https://mirrors.ustc.edu.cn/golang/$RELEASE
+RELEASE=$(curl -s https://golang.google.cn/dl/ | grep -o "go.*\linux-amd64.tar.gz" | head -n 1)
+wget -q https://golang.google.cn/dl/$RELEASE
 $STD tar -xzf $RELEASE -C /usr/local
 $STD ln -s /usr/local/go/bin/go /usr/local/bin/go
 set -o pipefail
