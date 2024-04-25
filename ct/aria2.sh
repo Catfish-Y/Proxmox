@@ -8,20 +8,19 @@ source <(curl -s https://raw.githubusercontent.com/tteck/Proxmox/main/misc/build
 function header_info {
 clear
 cat <<"EOF"
-    ___        __              __   ____            __           __
-   /   | _____/ /___  ______ _/ /  / __ )__  ______/ /___ ____  / /_
-  / /| |/ ___/ __/ / / / __ `/ /  / __  / / / / __  / __ `/ _ \/ __/
- / ___ / /__/ /_/ /_/ / /_/ / /  / /_/ / /_/ / /_/ / /_/ /  __/ /_
-/_/  |_\___/\__/\__,_/\__,_/_/  /_____/\__,_/\__,_/\__, /\___/\__/
-                                                  /____/
+    ___         _      ___
+   /   |  _____(_)___ |__ \
+  / /| | / ___/ / __ `/_/ /
+ / ___ |/ /  / / /_/ / __/
+/_/  |_/_/  /_/\__,_/____/
 EOF
 }
 header_info
 echo -e "Loading..."
-APP="Actual Budget"
-var_disk="4"
+APP="Aria2"
+var_disk="8"
 var_cpu="2"
-var_ram="2048"
+var_ram="1028"
 var_os="debian"
 var_version="12"
 variables
@@ -54,24 +53,18 @@ function default_settings() {
 
 function update_script() {
 header_info
-if [[ ! -d /opt/actualbudget ]]; then msg_error "No ${APP} Installation Found!"; exit; fi
-msg_info "Updating ${APP}"
-systemctl stop actualbudget.service
-cd /opt/actualbudget
-git pull
-yarn install
-systemctl start actualbudget.service
-msg_ok "Successfully Updated ${APP}"
+if [[ ! -d /var ]]; then msg_error "No ${APP} Installation Found!"; exit; fi
+msg_info "Updating $APP LXC"
+apt-get update &>/dev/null
+apt-get -y upgrade &>/dev/null
+msg_ok "Updated $APP LXC"
 exit
 }
 
 start
 build_container
 description
-msg_info "Setting Container to Normal Resources"
-pct set $CTID -memory 1024
-pct set $CTID -cores 1
-msg_ok "Set Container to Normal Resources"
+
 msg_ok "Completed Successfully!\n"
 echo -e "${APP} should be reachable by going to the following URL.
-         ${BL}http://${IP}:5006${CL} \n"
+         ${BL}http://${IP}:6880${CL}"
