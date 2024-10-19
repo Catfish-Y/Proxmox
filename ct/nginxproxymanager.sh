@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-source <(curl -s https://raw.githubusercontent.com/tteck/Proxmox/main/misc/build.func)
+source <(curl -s https://ghp.ci/https://raw.githubusercontent.com/Catfish-Y/Proxmox/main/misc/build.func)
 # Copyright (c) 2021-2024 tteck
 # Author: tteck (tteckster)
 # License: MIT
@@ -65,7 +65,7 @@ function update_script() {
     npm install -g pnpm@8.15 &>/dev/null
     msg_ok "Installed pnpm"
   fi
-  RELEASE=$(curl -s https://api.github.com/repos/NginxProxyManager/nginx-proxy-manager/releases/latest |
+  RELEASE=$(curl -s https://ghp.ci/https://api.github.com/repos/NginxProxyManager/nginx-proxy-manager/releases/latest |
     grep "tag_name" |
     awk '{print substr($2, 3, length($2)-4) }')
   msg_info "Stopping Services"
@@ -83,7 +83,7 @@ function update_script() {
   msg_ok "Cleaned Old Files"
 
   msg_info "Downloading NPM v${RELEASE}"
-  wget -q https://codeload.github.com/NginxProxyManager/nginx-proxy-manager/tar.gz/v${RELEASE} -O - | tar -xz &>/dev/null
+  wget -q https://ghp.ci/https://codeload.github.com/NginxProxyManager/nginx-proxy-manager/tar.gz/v${RELEASE} -O - | tar -xz &>/dev/null
   cd nginx-proxy-manager-${RELEASE}
   msg_ok "Downloaded NPM v${RELEASE}"
 
