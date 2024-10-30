@@ -14,6 +14,8 @@ network_check
 update_os
 
 msg_info "Installing Dependencies"
+$STD pip install -i https://mirrors.ustc.edu.cn/pypi/simple pip -U
+$STD pip config set global.index-url https://mirrors.ustc.edu.cn/pypi/simple
 $STD apt-get update
 $STD apt-get -y install \
   sudo \
