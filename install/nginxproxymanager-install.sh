@@ -65,7 +65,7 @@ msg_info "Installing pnpm"
 $STD npm install -g pnpm@8.15
 msg_ok "Installed pnpm"
 
-RELEASE=$(curl -s https://ghp.ci/https://api.github.com/repos/NginxProxyManager/nginx-proxy-manager/releases/latest |
+RELEASE=$(curl -s https://api.github.com/repos/NginxProxyManager/nginx-proxy-manager/releases/latest |
   grep "tag_name" |
   awk '{print substr($2, 3, length($2)-4) }')
 
