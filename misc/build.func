@@ -633,6 +633,12 @@ http://dl-cdn.alpinelinux.org/alpine/latest-stable/community
 EOF'
     pct exec "$CTID" -- ash -c "apk add bash >/dev/null"
   fi
+  if [ "$var_os" == "debian" ]; then
+    pct exec "$CTID" -- sed -i 's/deb.debian.org/mirrors.ustc.edu.cn/g' /etc/apt/sources.list
+  fi
+  if [ "$var_os" == "alpine" ]; then
+    pct exec "$CTID" -- sed -i 's/dl-cdn.alpinelinux.org/mirrors.ustc.edu.cn/g' /etc/apk/repositories
+  fi
   lxc-attach -n "$CTID" -- bash -c "$(wget -qLO - https://ghp.ci/https://raw.githubusercontent.com/Catfish-Y/Proxmox/main/install/$var_install.sh)" || exit
 
 }
