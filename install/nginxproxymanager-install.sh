@@ -14,8 +14,6 @@ network_check
 update_os
 
 msg_info "Installing Dependencies"
-$STD pip install -i https://mirrors.ustc.edu.cn/pypi/simple pip -U
-$STD pip config set global.index-url https://mirrors.ustc.edu.cn/pypi/simple
 $STD apt-get update
 $STD apt-get -y install \
   sudo \
@@ -40,6 +38,8 @@ $STD apt-get install -y \
   python3-venv \
   python3-cffi \
   python3-certbot-dns-cloudflare
+# $STD pip install -i https://mirrors.ustc.edu.cn/pypi/simple pip -U
+$STD pip config set global.index-url https://mirrors.ustc.edu.cn/pypi/simple
 $STD pip3 install certbot certbot-dns-multi
 $STD python3 -m venv /opt/certbot/
 rm -rf /usr/lib/python3.*/EXTERNALLY-MANAGED
