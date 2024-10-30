@@ -62,6 +62,7 @@ ln -sf /root/.nvm/versions/node/v16.20.2/bin/node /usr/bin/node
 msg_ok "Installed Node.js"
 
 msg_info "Installing pnpm"
+$STD npm config set registry https://registry.npmmirror.com/
 $STD npm install -g pnpm@8.15
 msg_ok "Installed pnpm"
 
@@ -72,12 +73,12 @@ RELEASE=$(curl -s https://api.github.com/repos/NginxProxyManager/nginx-proxy-man
 read -r -p "Would you like to install an older version (v2.10.4)? <y/N> " prompt
 if [[ ${prompt,,} =~ ^(y|yes)$ ]]; then
   msg_info "Downloading Nginx Proxy Manager v2.10.4"
-  wget -q https://ghp.ci/https://codeload.github.com/NginxProxyManager/nginx-proxy-manager/tar.gz/v2.10.4 -O - | tar -xz
+  wget -q https://codeload.github.com/NginxProxyManager/nginx-proxy-manager/tar.gz/v2.10.4 -O - | tar -xz
   cd ./nginx-proxy-manager-2.10.4
   msg_ok "Downloaded Nginx Proxy Manager v2.10.4"
 else
   msg_info "Downloading Nginx Proxy Manager v${RELEASE}"
-  wget -q https://ghp.ci/https://codeload.github.com/NginxProxyManager/nginx-proxy-manager/tar.gz/v${RELEASE} -O - | tar -xz
+  wget -q https://codeload.github.com/NginxProxyManager/nginx-proxy-manager/tar.gz/v${RELEASE} -O - | tar -xz
   cd ./nginx-proxy-manager-${RELEASE}
   msg_ok "Downloaded Nginx Proxy Manager v${RELEASE}"
 fi
