@@ -635,6 +635,10 @@ EOF'
   fi
   if [ "$var_os" == "debian" ]; then
     pct exec "$CTID" -- sed -i 's/deb.debian.org/mirrors.ustc.edu.cn/g' /etc/apt/sources.list
+    pct exec "$CTID" -- sed -i -e 's|security.debian.org/\? |security.debian.org/debian-security |g' \
+            -e 's|security.debian.org|mirrors.ustc.edu.cn|g' \
+            -e 's|deb.debian.org/debian-security|mirrors.ustc.edu.cn/debian-security|g' \
+            /etc/apt/sources.list
   fi
   if [ "$var_os" == "alpine" ]; then
     pct exec "$CTID" -- sed -i 's/dl-cdn.alpinelinux.org/mirrors.ustc.edu.cn/g' /etc/apk/repositories
