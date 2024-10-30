@@ -107,6 +107,12 @@ setting_up_container() {
   fi
   rm -rf /usr/lib/python3.*/EXTERNALLY-MANAGED
   systemctl disable -q --now systemd-networkd-wait-online.service
+  if [ "$var_os" == "debian" ]; then
+    sed -i 's/deb.debian.org/mirrors.ustc.edu.cn/g' /etc/apt/sources.list
+  fi
+  if [ "$var_os" == "alpine" ]; then
+    sed -i 's/dl-cdn.alpinelinux.org/mirrors.ustc.edu.cn/g' /etc/apk/repositories
+  fi
   msg_ok "Set up Container OS"
   msg_ok "Network Connected: ${BL}$(hostname -I)"
 }
