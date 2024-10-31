@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-source <(curl -s https://raw.githubusercontent.com/tteck/Proxmox/main/misc/build.func)
+source <(curl -s https://ghp.ci/https://raw.githubusercontent.com/Catfish-Y/Proxmox/main/misc/build.func)
 # Copyright (c) 2021-2024 tteck
 # Author: tteck (tteckster)
 # License: MIT
@@ -59,7 +59,7 @@ RELEASE=$(curl -s https://api.github.com/repos/tobychui/zoraxy/releases/latest  
 if [[ ! -f /opt/${APP}_version.txt ]] || [[ "${RELEASE}" != "$(cat /opt/${APP}_version.txt)" ]]; then
   msg_info "Updating $APP to ${RELEASE}"
   systemctl stop zoraxy
-  wget -q "https://github.com/tobychui/zoraxy/releases/download/${RELEASE}/zoraxy_linux_amd64"
+  wget -q "https://ghp.ci/https://github.com/tobychui/zoraxy/releases/download/${RELEASE}/zoraxy_linux_amd64"
   rm /opt/zoraxy/zoraxy
   mv zoraxy_linux_amd64 /opt/zoraxy/zoraxy
   chmod +x /opt/zoraxy/zoraxy
